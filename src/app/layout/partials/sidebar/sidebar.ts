@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MenuService } from '../../../core/services/menu.service';
 import { UiService } from '../../../core/services/ui.service';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MenuItem } from '../../../core/models/menu.model';
 import { NgTemplateOutlet } from '@angular/common';
+import { filter } from 'rxjs/internal/operators/filter';
 
 /**
  * Componente del sidebar que muestra el menú de navegación y permite colapsar/expandir el sidebar.
@@ -15,27 +16,56 @@ import { NgTemplateOutlet } from '@angular/common';
   templateUrl: './sidebar.html',
   styleUrls: ['./sidebar.scss'],
 })
-export class Sidebar {
+export class Sidebar implements OnInit {
   private router = inject(Router);
   private menuService = inject(MenuService);
   private uiService = inject(UiService);
+  private cdr = inject(ChangeDetectorRef);
+  
   isCollapsed = this.uiService.isSidebarCollapsed;
   
   // Obtenemos el Signal del servicio (Readonly)
   menuItems = this.menuService.menuItems;
 
+ngOnInit() {
+    // Solo expandimos automáticamente al iniciar la app
+  setTimeout(() => {
+      this.expandActiveRecursive(this.menuItems());
+      this.cdr.detectChanges(); // Forzamos a Angular a ver que 'expanded' ahora es true
+    }, 100);
+  }
+
   toggle(item: MenuItem) {
     if (item.children) {
-      // Como el signal del servicio es readonly, manejamos el estado localmente
-      // o podrías añadir un método en el servicio para mutar el estado.
       item.expanded = !item.expanded;
     }
+  }
+
+  // Esta función es vital para el CSS
+  isParentActive(item: MenuItem): boolean {
+    return this.hasActiveChild(item);
   }
 
   hasActiveChild(item: MenuItem): boolean {
     if (!item.children) return false;
     return item.children.some(child => 
-      this.router.isActive(child.route || '', false) || this.hasActiveChild(child)
+      (child.route && this.router.isActive(child.route, {
+        matrixParams: 'ignored',
+        queryParams: 'ignored',
+        paths: 'exact',
+        fragment: 'ignored'
+      })) || this.hasActiveChild(child)
     );
+  }
+
+  private expandActiveRecursive(items: MenuItem[]) {
+    if (!items) return;
+    
+    items.forEach(item => {
+      if (this.hasActiveChild(item)) {
+        item.expanded = true;
+        if (item.children) this.expandActiveRecursive(item.children);
+      }
+    });
   }
 }
