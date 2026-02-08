@@ -1,0 +1,53 @@
+<aside class="sidebar" [class.collapsed]="isCollapsed()">
+<nav class="sidebar">
+      <div class="sidebar-header">
+        <img src="../../../../../angular-icon.svg" alt="Logo"  width="50">
+        @if (!isCollapsed()) { <span>Angular Playground</span> }
+      </div>
+
+      <ul class="menu-root custom-scroll">
+        <ng-container 
+          *ngTemplateOutlet="menuRecursive; context: { $implicit: menuItems() }">
+        </ng-container>
+      </ul>
+    </nav>
+
+    <ng-template #menuRecursive let-items>
+      @for (item of items; track item.label) {
+        <li class="menu-node">
+            <div class="item-content" 
+                (click)="toggle(item)"
+                [class.active-item]="rla.isActive" 
+                [class.active-parent]="hasActiveChild(item) && !rla.isActive"
+                [routerLinkActive]="'active-item'"
+                #rla="routerLinkActive"
+                [routerLinkActiveOptions]="{ exact: true }">
+            
+            <span class="material-icons" [class.active-icon]="rla.isActive">{{ item.icon }}</span>
+            <span class="label">{{ item.label }}</span>
+
+            @if (item.children?.length) {
+                <span class="material-icons arrow" [class.is-expanded]="item.expanded">
+                expand_more
+                </span>
+            }
+
+            @if (item.route && !item.children?.length) {
+                <a [routerLink]="item.route" 
+                [routerLinkActiveOptions]="{ exact: true }"
+                routerLinkActive="active-link-internal" 
+                class="click-overlay"></a>
+            }
+            </div>
+
+          @if (item.children?.length && (item.expanded || hasActiveChild(item))) {
+            <ul class="submenu custom-scroll">
+              <ng-container 
+                *ngTemplateOutlet="menuRecursive; context: { $implicit: item.children }">
+              </ng-container>
+            </ul>
+          }
+        </li>
+      }
+    </ng-template>
+</aside>

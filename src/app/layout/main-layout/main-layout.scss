@@ -1,0 +1,49 @@
+.main-container {
+  display: flex; /* Sidebar a la izquierda, resto a la derecha */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; /* Evitamos scroll en el contenedor padre */
+}
+
+.sidebar {
+    height: 100vh;
+  /* El ancho lo define el propio componente Sidebar (250px o 70px) */
+}
+
+.main-wrapper {
+  flex: 1; /* Ocupa todo el espacio restante */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto; /* El scroll ahora sucede solo aquí dentro */
+  background-color: #f8f9fa;
+}
+
+.header {
+  flex: 0 0 60px; /* Altura fija del header */
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  z-index: 10;
+}
+
+.content {
+  flex: 1; /* El contenido crece para empujar al footer */
+  padding: 24px;
+}
+.footer {
+  flex: 0 0 auto; /* El footer ocupa su espacio natural */
+  background: white;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Responsive: En móviles, el sidebar desaparece o se mueve */
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-areas:
+      "header"
+      "content"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+  .sidebar { display: none; }
+}

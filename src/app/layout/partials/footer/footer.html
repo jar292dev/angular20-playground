@@ -1,0 +1,13 @@
+<footer class="app-footer text-center">
+  <div>
+    {{ app.APP_START_YEAR }} - {{ currentYear }} {{ app.APP_NAME }} v{{ app.APP_VERSION }} {{ app.APP_LICENSE }}
+  </div>
+
+  <div>
+    <span class="material-icons text-warning align-bottom">code</span> Creado por
+    <a [href]="app.APP_AUTHOR_URL" target="_blank" rel="noopener noreferrer">
+      {{ app.APP_AUTHOR }}
+    </a>
+    - {{ app.APP_DESCRIPTION }} <span class="material-icons text-warning align-bottom">share</span>
+</div>
+</footer>
