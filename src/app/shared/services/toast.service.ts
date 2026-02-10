@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 import { ToastContainer } from "../components/toast-container/toast-container";
 
+/**
+ * Servicio para mostrar notificaciones tipo toast en la aplicación.
+ * Proporciona métodos para mostrar diferentes tipos de toasts (éxito, error, advertencia, información).
+ * El servicio se encarga de registrar un contenedor de toasts y agregar nuevos toasts a ese contenedor.
+ */
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +13,7 @@ import { ToastContainer } from "../components/toast-container/toast-container";
 export class ToastService {
   private container?: ToastContainer;
 
-  register(container: ToastContainer) {
+  register(container: ToastContainer) { // Método para registrar el contenedor de toasts
     this.container = container;
   }
 
