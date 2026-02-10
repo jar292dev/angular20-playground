@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Toast } from '../../models/toast';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgTemplateOutlet } from '@angular/common';
+import { Toast } from '../../services/toast.service';
 
 @Component({
   selector: 'app-toast-container',
-  imports: [NgClass, NgFor],
+  imports: [NgClass, NgFor, NgTemplateOutlet],
   templateUrl: './toast-container.html',
   styleUrl: './toast-container.css',
 })

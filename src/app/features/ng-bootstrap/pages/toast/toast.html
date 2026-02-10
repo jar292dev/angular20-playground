@@ -1,9 +1,14 @@
 <p>toast works!</p>
 
-<button class="btn btn-success d-block mb-2" (click)="showSuccessToast()">Show Toast Satisfatory</button>
 
-<button class="btn btn-danger d-block mb-2" (click)="showErrorToast()">Show Toast Error</button>
 
+<div class="buttons">
+    <button class="btn btn-success" (click)="showSuccessToast()">Show Toast Satisfatory</button>
+    <button class="btn btn-danger" (click)="showErrorToast()">Show Toast Error</button>
+</div>
 
 <hr>
-<button class="btn btn-primary d-block mb-2" (click)="returnToIndex()">Return to Index</button>
+<button class="btn btn-primary d-block mb-2" (click)="returnToIndex()">
+    <span class="material-icons">arrow_back</span> 
+    Volver atras
+</button>

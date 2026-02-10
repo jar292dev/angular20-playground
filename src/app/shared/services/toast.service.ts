@@ -1,6 +1,13 @@
 import { Injectable } from "@angular/core";
 import { ToastContainer } from "../components/toast-container/toast-container";
 
+export interface Toast {
+  title: string;
+  message: string;
+  class: string;
+  delay?: number;
+}
+
 /**
  * Servicio para mostrar notificaciones tipo toast en la aplicación.
  * Proporciona métodos para mostrar diferentes tipos de toasts (éxito, error, advertencia, información).

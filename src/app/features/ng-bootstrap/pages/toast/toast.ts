@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ToastService } from '../../../../shared/services/toast.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-toast',
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrl: './toast.scss',
 })
 export class Toast {
+  private route = inject(ActivatedRoute);
     private router = inject(Router);
     private toastService = inject(ToastService);
 
@@ -23,6 +24,6 @@ export class Toast {
 
 
   returnToIndex() {
-    this.router.navigate(['/'], { relativeTo: this.router?.routerState.root });
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }
