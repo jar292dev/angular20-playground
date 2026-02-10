@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { UiService } from '../../../core/services/ui.service';
+import { UiService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-header',

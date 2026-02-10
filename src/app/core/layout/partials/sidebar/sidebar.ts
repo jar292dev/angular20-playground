@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { MenuService } from '../../../core/services/menu.service';
-import { UiService } from '../../../core/services/ui.service';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { MenuItem } from '../../../core/models/menu.model';
 import { NgTemplateOutlet } from '@angular/common';
 import { filter } from 'rxjs/internal/operators/filter';
+import { MenuService } from '../../../services/menu.service';
+import { UiService } from '../../../services/ui.service';
+import { MenuItem } from '../../../models/menu.model';
 
 /**
  * Componente del sidebar que muestra el menú de navegación y permite colapsar/expandir el sidebar.
