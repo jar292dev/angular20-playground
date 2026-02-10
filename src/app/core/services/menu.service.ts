@@ -149,6 +149,12 @@ export class MenuService {
             label: "Api",
             icon: "api",
             expanded: false,
+        },
+        {
+            label: "Experimental",
+            icon: "science",
+            expanded: false,
+            route: "/experimental"
         }
     ]);
 

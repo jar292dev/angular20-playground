@@ -9,6 +9,7 @@ export const routes: Routes = [
             { path: 'formly', loadChildren: () => import('./features/tools/formly/formly.routes').then(m => m.formlyRoutes) },
             { path: 'zod', loadChildren: () => import('./features/tools/zod/zod.routes').then(m => m.zodRoutes) },
             { path: 'ng-bootstrap', loadChildren: () => import('./features/ng-bootstrap/ng-bootstrap.routes').then(m => m.ngBootstrapRoutes) },
+            { path: 'experimental', loadChildren: () => import('./features/experimental/experimental.routes').then(m => m.experimentalRoutes) },
 
             { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
         ]
