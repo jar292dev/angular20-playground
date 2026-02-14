@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { provideFormlyCore } from '@ngx-formly/core';
 import { withFormlyBootstrap } from '@ngx-formly/bootstrap';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import hljs from 'highlight.js/lib/core';
 import typescript from 'highlight.js/lib/languages/typescript';
@@ -11,6 +11,7 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import json from 'highlight.js/lib/languages/json';
 import css from 'highlight.js/lib/languages/css';
 import { GlobalErrorHandler } from './core/errors/global-error-handler';
+import { errorInterceptor } from './core/interceptors/error.interceptor';
 
 // Registro de los lenguajes que se van a resaltar con Highlight.js
 hljs.registerLanguage('typescript', typescript);
@@ -34,7 +35,9 @@ export const appConfig: ApplicationConfig = {
 
     // === Routing & HTTP ===
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([errorInterceptor])
+    ),
 
     // === Forms ===
     provideFormlyCore([
