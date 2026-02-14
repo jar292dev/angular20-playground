@@ -25,12 +25,16 @@ describe('ToastContainer', () => {
 
   // Creame una prueba que verifique que el componente muestra correctamente un mensaje de toast cuando se le asigna un mensaje a la propiedad "message"
   it('should display a toast message when the "message" property is set', () => {
-    const testMessage = 'This is a test toast message';
-    component.message = testMessage;
+    const testToast = {
+      title: 'Test Title',
+      message: 'This is a test toast message',
+      class: 'bg-success'
+    };
+    component.toasts = [testToast];
     fixture.detectChanges();
 
-    const toastElement = fixture.nativeElement.querySelector('.toast');
+    const toastElement = fixture.nativeElement.querySelector('.toast-body');
     expect(toastElement).toBeTruthy();
-    expect(toastElement.textContent).toContain(testMessage);
+    expect(toastElement.textContent).toContain(testToast.message);
   });
 });
