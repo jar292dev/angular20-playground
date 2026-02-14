@@ -30,6 +30,8 @@
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "@ng-bootstrap/ng-bootstrap": "19.0.1",
+    "@ngx-formly/bootstrap": "^7.1.0",
+    "@ngx-formly/core": "^7.1.0",
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.8",
     "formly": "0.0.2",
