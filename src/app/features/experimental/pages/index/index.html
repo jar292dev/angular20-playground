@@ -3,5 +3,25 @@
 <h1>Zona Experimental</h1>
 <p>Aqui es donde se prueba y se rompe todo.</p>
 
-
+<h4>Prueba de Output Container</h4>
 <app-output-container [output]="'¡Bienvenido a la zona experimental! Aquí puedes probar nuevas características y ver resultados en tiempo real.'"></app-output-container>
+<br>
+<h4>Probar a lanzar errores controlados definidos en la aplicacion</h4>
+<div class="buttons">
+  <button class="btn btn-warning mt-3" (click)="throwResourceNotFoundError()">Lanzar Error de Recurso No Encontrado</button>
+  <button class="btn btn-primary mt-3" (click)="throwVersionConflictError()">Lanzar Error de Conflicto de Versiones</button>
+  <button class="btn btn-danger mt-3" (click)="throwSystemError()">Lanzar Error del Sistema</button>
+</div>
+
+<br>
+<h4>Probar a lanzar peticiones Http al servidor mock</h4>
+<div class="buttons">
+  <button class="btn btn-success mt-3" (click)="testApiCallWithCode(200)">Lanzar Éxito HTTP 200</button>
+  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(400)">Lanzar Error HTTP 400</button>
+  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(401)">Lanzar Error HTTP 401</button>
+  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(404)">Lanzar Error HTTP 404</button>
+  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(422)">Lanzar Error HTTP 422</button>
+  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(500)">Lanzar Error HTTP 500</button>
+</div>
+
+<app-output-container [output]="output"></app-output-container>
