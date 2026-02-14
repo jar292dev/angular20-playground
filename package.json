@@ -7,7 +7,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "mock-server": "node src/app/mock-server.js"
   },
   "prettier": {
     "printWidth": 100,
@@ -34,6 +35,8 @@
     "@ngx-formly/core": "^7.1.0",
     "@popperjs/core": "2.11.8",
     "bootstrap": "5.3.8",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
     "formly": "0.0.2",
     "highlight.js": "^11.11.1",
     "jquery": "4.0.0",
