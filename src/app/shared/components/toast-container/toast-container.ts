@@ -10,6 +10,7 @@ import { Toast } from '../../services/toast.service';
 })
 export class ToastContainer {
   toasts: Toast[] = [];
+  message!: string;
 
   add(toast: Toast) {
     this.toasts.push(toast);

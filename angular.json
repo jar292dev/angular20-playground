@@ -86,7 +86,6 @@
               }
             ],
             "styles": [
-              "../node_modules/prismjs/themes/prism-okaidia.min.css",
               "src/styles.scss"
             ],
             "polyfills": [

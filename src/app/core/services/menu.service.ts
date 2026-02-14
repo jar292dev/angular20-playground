@@ -1,6 +1,11 @@
 import { Injectable, signal } from "@angular/core";
 import { MenuItem } from "../models/menu.model";
 
+/**
+ * Servicio para gestionar la estructura del menú de navegación.
+ * Define la estructura del menú y proporciona un signal de solo lectura para que los componentes puedan suscribirse a los cambios.
+ */
+
 @Injectable({
   providedIn: 'root'
 })

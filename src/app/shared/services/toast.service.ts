@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 import { ToastContainer } from "../components/toast-container/toast-container";
 
+/**
+ * Definición de la interfaz Toast, que representa la estructura de un mensaje de toast.
+ * Incluye propiedades para el título, mensaje, clase CSS y un retraso opcional para la desaparición del toast.
+ */
+
 export interface Toast {
   title: string;
   message: string;

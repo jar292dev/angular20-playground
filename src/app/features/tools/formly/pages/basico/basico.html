@@ -5,8 +5,11 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
   <formly-form [form]="form" [fields]="fields" [model]="model">
   </formly-form>
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <button type="button" class="btn btn-secondary" (click)="reset()">Reset</button>
+
+  <div class="buttons">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-secondary" (click)="reset()">Reset</button>
+  </div>
 </form>
 
 <app-output-container [output]="output"></app-output-container>

@@ -6,7 +6,6 @@ import { Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class UiService {
-  // Signal para el estado del sidebar (abierto/cerrado)
   isSidebarCollapsed = signal(false);
 
   toggleSidebar() {

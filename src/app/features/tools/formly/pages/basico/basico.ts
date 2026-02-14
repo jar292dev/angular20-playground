@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyForm, FormlyFormOptions } from '@ngx-formly/core';
 import { Breadcrumbs } from "../../../../../shared/components/breadcrumbs/breadcrumbs";
-import { JsonPipe } from '@angular/common';
 import { OutputContainer } from "../../../../../shared/components/output-container/output-container";
 
 
@@ -38,7 +37,7 @@ Tipos de campos a probar
 
 @Component({
   selector: 'app-basico',
-  imports: [ReactiveFormsModule, FormlyForm, Breadcrumbs, JsonPipe, OutputContainer],
+  imports: [ReactiveFormsModule, FormlyForm, Breadcrumbs, OutputContainer],
   templateUrl: './basico.html',
   styleUrl: './basico.scss',
 })
