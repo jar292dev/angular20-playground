@@ -1,6 +1,11 @@
-@if(resultado){
-    <p class="mt-2">Salida:</p>
-    <div class="alert alert-dark mt-2">
-        <pre>{{ resultado }}</pre>
+@if(output){
+    
+    <div class="bg-dark text-warning p-3 rounded mt-4">
+        <div class="mb-2 text-secondary">Salida:</div>
+        @if(isObject()){
+            <pre>{{ output | json }}</pre>
+        } @else {
+            <pre>{{ output }}</pre>
+        }
     </div>
 }
