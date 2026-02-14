@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideFormlyCore } from '@ngx-formly/core';
 import { withFormlyBootstrap } from '@ngx-formly/bootstrap';
@@ -22,7 +22,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     // === Core Angular ===
     provideBrowserGlobalErrorListeners(),
-    provideZonelessChangeDetection(),
+    // provideZonelessChangeDetection(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
 
     // === Routing & HTTP ===
     provideRouter(routes),

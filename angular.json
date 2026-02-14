@@ -32,6 +32,7 @@
             "scripts": [
             ],
             "polyfills": [
+              "zone.js",
               "@angular/localize/init"
             ]
           },
@@ -89,6 +90,8 @@
               "src/styles.scss"
             ],
             "polyfills": [
+              "zone.js",
+              "zone.js/testing",
               "@angular/localize/init"
             ]
           }
