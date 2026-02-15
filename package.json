@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "mock-server": "node src/app/mock-server.js"
+    "mock-server": "node scripts/mock-server.js"
   },
   "prettier": {
     "printWidth": 100,
