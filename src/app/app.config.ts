@@ -12,6 +12,7 @@ import json from 'highlight.js/lib/languages/json';
 import css from 'highlight.js/lib/languages/css';
 import { GlobalErrorHandler } from './core/errors/global-error-handler';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
+import { timeoutInterceptor } from './core/interceptors/timeout.interceptor';
 
 // Registro de los lenguajes que se van a resaltar con Highlight.js
 hljs.registerLanguage('typescript', typescript);
@@ -36,7 +37,7 @@ export const appConfig: ApplicationConfig = {
     // === Routing & HTTP ===
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([errorInterceptor])
+      withInterceptors([timeoutInterceptor, errorInterceptor])
     ),
 
     // === Forms ===
