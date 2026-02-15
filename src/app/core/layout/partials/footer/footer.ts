@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { APP_CONSTANTS } from '../../../constants/app.constants';
+import { APP_METADATA } from '../../../constants/app-metadata.constants';
 
 @Component({
   selector: 'app-footer',
@@ -8,7 +8,7 @@ import { APP_CONSTANTS } from '../../../constants/app.constants';
   styleUrl: './footer.scss',
 })
 export class Footer {
-  readonly app = APP_CONSTANTS;
+  readonly app = APP_METADATA;
   readonly currentYear = new Date().getFullYear();
 
 }

@@ -1,4 +1,4 @@
-export const APP_CONSTANTS = {
+export const APP_METADATA = {
     APP_NAME: 'Angular 20 Playground',
     APP_VERSION: '1.0.0',
     APP_AUTHOR: 'jar292dev',
