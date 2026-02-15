@@ -1,6 +1,6 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { catchError, throwError } from 'rxjs';
-import { AppError, AuthenticationError, AuthorizationError, BusinessError, NotFoundError, SystemError } from '../errors/errors';
+import { fromHttpError } from '../errors'; // Importado desde el index.ts de errores para convertir HttpErrorResponse a AppError
 
 /**
  * Interceptor global para manejar errores de negocio y técnicos de manera centralizada.
@@ -14,34 +14,15 @@ import { AppError, AuthenticationError, AuthorizationError, BusinessError, NotFo
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let customError;
+      // Convierte el HttpErrorResponse a un error tipado
+      const appError = fromHttpError(error);
 
 
-      console.error('Http Error Interceptor Log (Raw):', error);
-      switch (error.status) {
-        case 401: // Unauthorized
-          customError = new AuthenticationError();
-          break;
-        case 403: // Forbidden
-            customError = new AuthorizationError();
-            break;
-        case 404: // Not Found
-            customError = new NotFoundError();
-            break;
-        case 422: // Unprocessable Entity para negocio
-          customError = new BusinessError();
-          break;
-        
-        default:
-          customError = new SystemError();
-          break;
-      }
+      // Log del error
+      console.error(`[${appError.name}]`, appError.toJSON());
 
-
-      // Aquí podrías usar un servicio de notificaciones (Toast) antes de relanzar
-      console.error('Http Error Interceptor Log:', customError);
-      
-      return throwError(() => customError);
+      // Re-lanza el error tipado
+      return throwError(() => appError)
     })
   );
 };

@@ -1,5 +1,6 @@
-import { ErrorHandler, inject, Injectable } from '@angular/core';
+import { ErrorHandler, inject, Injectable, NgZone } from '@angular/core';
 import { ToastService } from '../../shared/services/toast.service';
+import { Router } from '@angular/router';
 
 /**
  * GlobalErrorHandler es una clase que implementa la interfaz ErrorHandler de Angular.
@@ -11,10 +12,16 @@ import { ToastService } from '../../shared/services/toast.service';
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   private toastService = inject(ToastService);
+  private readonly zone = inject(NgZone);
+  private readonly router = inject(Router);
+
   handleError(error: any): void {
-    // Aquí podrías enviar el error a Sentry o LogRocket
     console.error('Excepción capturada globalmente:', error);
 
-    this.toastService.error(error.message || 'Se ha producido un error. Revisa la consola para más detalles.', 'Error');
+    // Ejecutar el Toast dentro de la zona para que Angular detecte el cambio
+    this.zone.run(() => {
+      const message = error.message || 'Error inesperado';
+      this.toastService.error(message, 'Error de Sistema');
+    });
   }
 }
