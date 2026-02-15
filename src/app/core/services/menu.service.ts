@@ -156,6 +156,18 @@ export class MenuService {
             expanded: false,
         },
         {
+            label: "Protegido",
+            icon: "lock",
+            expanded: false,
+            route: "/protegido",
+            children: [
+                { label: "Acceso General", icon: "verified_user", route: "/protegido" },
+                { label: "Página Admin", icon: "admin_panel_settings", route: "/protegido/pagina-admin" },
+                { label: "Página Moderador", icon: "security", route: "/protegido/pagina-moderador" },
+                { label: "Página Usuario", icon: "person", route: "/protegido/pagina-usuario" },
+            ]
+        },
+        {
             label: "Experimental",
             icon: "science",
             expanded: false,

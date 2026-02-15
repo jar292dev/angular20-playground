@@ -12,6 +12,7 @@ export const routes: Routes = [
             { path: 'formly', loadChildren: () => import('./features/tools/formly/formly.routes').then(m => m.formlyRoutes) },
             { path: 'zod', loadChildren: () => import('./features/tools/zod/zod.routes').then(m => m.zodRoutes) },
             { path: 'ng-bootstrap', loadChildren: () => import('./features/ng-bootstrap/ng-bootstrap.routes').then(m => m.ngBootstrapRoutes) },
+            { path: 'protegido', loadChildren: () => import('./features/protegido/protegido.routes').then(m => m.protegidoRoutes) },
             { path: 'experimental', loadChildren: () => import('./features/experimental/experimental.routes').then(m => m.experimentalRoutes) },
 
             // === Ruta comodín para páginas no encontradas ===
