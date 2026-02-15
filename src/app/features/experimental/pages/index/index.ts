@@ -1,8 +1,8 @@
 import { Component, inject, output } from '@angular/core';
 import { Breadcrumbs } from "../../../../shared/components/breadcrumbs/breadcrumbs";
 import { OutputContainer } from "../../../../shared/components/output-container/output-container";
-import { NotFoundError, SystemError, VersionConflictError } from '../../../../core/errors/errors';
 import { TestErrorService } from '../../../angular/errores/services/test-error.service';
+import { AppError, ConflictError, NotFoundError } from '../../../../core/errors';
 
 @Component({
   selector: 'app-index',
@@ -22,20 +22,33 @@ export class Index {
 
   // === Métodos para lanzar errores manualmente ===
   throwSystemError() {
-    throw new SystemError();
+    throw new AppError("Error del sistema simulado", "SYSTEM_ERROR", 500);
   }
 
   throwVersionConflictError() {
-    throw new VersionConflictError();
+    throw new ConflictError('Conflicto de versión detectado');
   }
 
   throwResourceNotFoundError() {
-    throw new NotFoundError('12345');
+    throw new NotFoundError('Recurso con ID 12345 no encontrado');
   }
 
   // === Métodos para probar llamadas HTTP ===
   testApiCallWithCode(code: number) {
     this.testService.testCode(code).subscribe({
+      next: (data) => {
+        this.output = data;
+      },
+      error: (error) => {
+        this.output = error;
+        throw error;
+      }
+    });
+  }
+
+
+  testTimeout() {
+    this.testService.testTimeout().subscribe({
       next: (data) => {
         this.output = data;
       },

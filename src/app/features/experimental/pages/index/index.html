@@ -12,16 +12,35 @@
   <button class="btn btn-primary mt-3" (click)="throwVersionConflictError()">Lanzar Error de Conflicto de Versiones</button>
   <button class="btn btn-danger mt-3" (click)="throwSystemError()">Lanzar Error del Sistema</button>
 </div>
-
+<br>
 <br>
 <h4>Probar a lanzar peticiones Http al servidor mock</h4>
-<div class="buttons">
-  <button class="btn btn-success mt-3" (click)="testApiCallWithCode(200)">Lanzar Éxito HTTP 200</button>
-  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(400)">Lanzar Error HTTP 400</button>
-  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(401)">Lanzar Error HTTP 401</button>
-  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(404)">Lanzar Error HTTP 404</button>
-  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(422)">Lanzar Error HTTP 422</button>
-  <button class="btn btn-secondary mt-3" (click)="testApiCallWithCode(500)">Lanzar Error HTTP 500</button>
+<div class="buttons mt-3">
+  <div class="btn codigos">Codigos Http 200</div>
+  <button class="btn btn-success" (click)="testApiCallWithCode(200)">HTTP 200</button>
+</div>
+<div class="buttons mt-3">
+  <div class="btn codigos">Codigos Http 400</div>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(400)">HTTP 400</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(401)">HTTP 401</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(404)">HTTP 404</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(409)">HTTP 409</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(422)">HTTP 422</button>
+</div>
+
+<div class="buttons mt-3">
+  <div class="btn codigos">Codigos Http 500</div>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(500)">HTTP 500</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(501)">HTTP 501</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(502)">HTTP 502</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(503)">HTTP 503</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(504)">HTTP 504</button>
+  <button class="btn btn-secondary" (click)="testApiCallWithCode(505)">HTTP 505</button>
+</div>
+
+<div class="buttons mt-3">
+  <div class="btn codigos">Especificos</div>
+  <button class="btn btn-secondary" (click)="testTimeout()">Timeout</button>
 </div>
 
 <app-output-container [output]="output"></app-output-container>
