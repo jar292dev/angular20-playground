@@ -1,9 +1,45 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
+
+const SECRET_JWT_KEY = 'mysecretkey12345'; // Clave secreta para firmar los JWT (en un entorno real, usar una variable de entorno)
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
+
+// Middleware para manejar la sesión y verificar el token JWT
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.url}`);
+    const token = req.cookies.access_token; // Obtiene el token de la cookie
+    
+    req.session = { user: null }; // Inicializa la sesión con user en null
+
+    try {
+        const data = jwt.verify(token, SECRET_JWT_KEY); // Verifica el token con la clave secreta
+        req.session.user = data.user; // Si el token es válido, asigna el usuario a la sesión
+        console.log(`data from token: ${JSON.stringify(data)}`);
+    } catch (error) {
+        //console.error(error.message, error.stack);
+    }
+    next(); // Llama a next() para pasar al siguiente middleware o ruta
+})
+
+// =============================================================================
+// Definir array de objetos de usuarios para simular una base de datos
+// =============================================================================
+const users = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', password: 'valid', roles: ['user'], status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', password: 'valid', roles: ['user'], status: 'active' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', password: 'valid', roles: ['user', 'editor'], status: 'active' },
+  { id: 4, name: 'Admin User', email: 'admin@example.com', password: 'admin', roles: ['user', 'editor', 'admin'], status: 'active' },
+  { id: 5, name: 'Blocked User', email: 'blocked@example.com', password: 'valid', roles: ['user'], status: 'blocked' },
+  { id: 6, name: 'Inactive User', email: 'inactive@example.com', password: 'valid', roles: ['user'], status: 'inactive' },
+];
+
+// =============================================================================
 
 // =============================================================================
 // Mensajes de error personalizados
@@ -218,33 +254,44 @@ app.post('/api/login', (req, res) => {
     });
   }
   
-  if (email === 'blocked@example.com') {
-    console.log('🚫 403 - Login: usuario bloqueado');
-    return res.status(403).json({
-      error: 'Forbidden',
-      message: 'Tu cuenta ha sido bloqueada'
-    });
-  }
-  
-  if (password === 'wrong') {
-    console.log('🔒 401 - Login: credenciales incorrectas');
-    return res.status(401).json({
-      error: 'Unauthorized',
-      message: 'Email o contraseña incorrectos'
-    });
-  }
-  
-  console.log('✅ 200 - Login exitoso');
-  res.status(200).json({
-    message: 'Login exitoso',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-    user: {
-      id: 1,
-      email: email,
-      name: 'Usuario Test'
+  // Realizar login exitoso (en un entorno real, aquí se verificarían las credenciales contra una base de datos)
+  try {
+    const user = users.find(u => u.email === email && u.password === password);
+    if (!user) {
+      console.log('🔒 401 - Login: credenciales incorrectas (usuario no encontrado)');
+      return res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Email o contraseña incorrectos'
+      });
     }
-  });
-});
+
+    if (user.status === 'blocked' || user.status === 'inactive') {
+      console.log('🚫 403 - Login: usuario bloqueado');
+      return res.status(403).json({
+        error: 'Forbidden',
+        message: 'Tu cuenta ha sido bloqueada'
+      });
+    }
+
+    // Login exitoso, generar token JWT con la información del usuario
+    const token = jwt.sign({ user }, SECRET_JWT_KEY, { expiresIn: '1h' });
+
+    console.log('✅ 200 - Login exitoso');
+    res
+      .cookie('access_token', token, { 
+        httpOnly: true, 
+        secure: false, 
+        sameSite: 'Strict',
+        maxAge: 1000 * 60 * 60, // 1 hora
+      }) // En producción, secure debería ser true
+      .status(200)
+      .send({ user });
+
+  } catch (error) {
+    console.error(error.message, error.stack);
+    res.status(401).send({ error: `Error logging in: ${error.message}` });
+  }
+})
 
 // =============================================================================
 // Endpoint de información (lista todos los endpoints disponibles)
