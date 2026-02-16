@@ -36,4 +36,10 @@ export class TestErrorService {
   testNetworkError() {
     return this.http.get('http://localhost:3000/api/connection-error');
   }
+
+  // === Probar Login con credenciales incorrectas ===
+  testLogin(email: string, password: string) {
+    return this.http.post('http://localhost:3000/api/login', { email, password });
+  }
+
 }
