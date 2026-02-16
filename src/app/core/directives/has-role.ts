@@ -32,8 +32,11 @@ export class HasRole {
   }
 
   private updateView() {
-    const userRoles = this.authService.getUserRoles();
-    const hasRole = this.roles.some(role => userRoles.includes(role));
+    // const userRoles = this.authService.getUserRoles();
+    // const hasRole = this.roles.some(role => userRoles.includes(role));
+
+    const hasRole = this.authService.hasRole(this.roles);
+
 
     if (hasRole) {
       this.viewContainer.createEmbeddedView(this.templateRef);
