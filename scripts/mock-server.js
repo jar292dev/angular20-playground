@@ -294,6 +294,149 @@ app.post('/api/login', (req, res) => {
 })
 
 // =============================================================================
+// Endpoint listar usuarios (solo para usuarios autenticados)
+// =============================================================================
+app.get('/api/users', (req, res) => {
+  if (!req.session.user) {
+    console.log('🔒 401 - Listar usuarios: no autenticado');
+    return res.status(401).json({
+      error: 'Unauthorized',
+      message: 'Debes iniciar sesión para acceder a esta información'
+    });
+  }
+
+  console.log('✅ 200 - Listar usuarios: autenticado');
+  res.status(200).json(users);
+});
+
+app.get('/api/users/:id', (req, res) => {
+  if (!req.session.user) {
+    console.log('🔒 401 - Detalle usuario: no autenticado');
+    return res.status(401).json({
+      error: 'Unauthorized',
+      message: 'Debes iniciar sesión para acceder a esta información'
+    });
+  }
+
+  const userId = parseInt(req.params.id, 10);
+  const user = users.find(u => u.id === userId);
+
+  if (!user) {
+    console.log(`❌ 404 - Detalle usuario: usuario con ID ${userId} no encontrado`);
+    return res.status(404).json({
+      error: 'Not Found',
+      message: 'Usuario no encontrado'
+    });
+  }
+
+  console.log(`✅ 200 - Detalle usuario: usuario con ID ${userId} encontrado`);
+  res.status(200).json(user);
+});
+
+app.get('/api/profile', (req, res) => {
+  if (!req.session.user) {
+    console.log('🔒 401 - Perfil: no autenticado');
+    return res.status(401).json({
+      error: 'Unauthorized',
+      message: 'Debes iniciar sesión para acceder a esta información'
+    });
+  }
+
+  console.log('✅ 200 - Perfil: autenticado');
+  res.status(200).json(req.session.user);
+});
+
+// CRUD completo de usuarios (solo para admins)
+app.post('/api/users', (req, res) => {
+  if (!req.session.user || !req.session.user.roles.includes('admin')) {
+    console.log('🔒 403 - Crear usuario: no autorizado');
+    return res.status(403).json({
+      error: 'Forbidden',
+      message: 'No tienes permisos para realizar esta acción'
+    });
+  }
+
+  const { name, email, password, roles } = req.body;
+  if (!name || !email || !password) {
+    console.log('❌ 400 - Crear usuario: campos faltantes');
+    return res.status(400).json({
+      error: 'Bad Request',
+      message: 'Nombre, email y contraseña son requeridos'
+    });
+  }
+
+  const newUser = {
+    id: users.length + 1,
+    name,
+    email,
+    password,
+    roles: roles || ['user'],
+    status: 'active'
+  };
+  users.push(newUser);
+
+  console.log('✅ 201 - Crear usuario: exitoso');
+  res.status(201).json(newUser);
+});
+
+app.put('/api/users/:id', (req, res) => {
+  if (!req.session.user || !req.session.user.roles.includes('admin')) {
+    console.log('🔒 403 - Actualizar usuario: no autorizado')
+    return res.status(403).json({
+      error: 'Forbidden',
+      message: 'No tienes permisos para realizar esta acción'
+    });
+  }
+
+  const userId = parseInt(req.params.id, 10);
+  const user = users.find(u => u.id === userId);
+
+  if (!user) {
+    console.log(`❌ 404 - Actualizar usuario: usuario con ID ${userId} no encontrado`);
+    return res.status(404).json({
+      error: 'Not Found',
+      message: 'Usuario no encontrado'
+    });
+  }
+
+  const { name, email, password, roles, status } = req.body;
+  if (name) user.name = name;
+  if (email) user.email = email;
+  if (password) user.password = password;
+  if (roles) user.roles = roles;
+  if (status) user.status = status;
+
+  console.log(`✅ 200 - Actualizar usuario: usuario con ID ${userId} actualizado`);
+  res.status(200).json(user);
+});
+
+
+app.delete('/api/users/:id', (req, res) => {
+  if (!req.session.user || !req.session.user.roles.includes('admin')) {
+    console.log('🔒 403 - Eliminar usuario: no autorizado');
+    return res.status(403).json({
+      error: 'Forbidden',
+      message: 'No tienes permisos para realizar esta acción'
+    });
+  }
+
+  const userId = parseInt(req.params.id, 10);
+  const userIndex = users.findIndex(u => u.id === userId);
+
+  if (userIndex === -1) {
+    console.log(`❌ 404 - Eliminar usuario: usuario con ID ${userId} no encontrado`);
+    return res.status(404).json({
+      error: 'Not Found',
+      message: 'Usuario no encontrado'
+    });
+  }
+
+  users.splice(userIndex, 1);
+  console.log(`✅ 200 - Eliminar usuario: usuario con ID ${userId} eliminado`);
+  res.status(200).json({ message: 'Usuario eliminado correctamente' });
+});
+
+// =============================================================================
 // Endpoint de información (lista todos los endpoints disponibles)
 // =============================================================================
 app.get('/', (req, res) => {
