@@ -1,1 +1,8 @@
-<p>index works!</p>
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+<app-login [model]="currentUser()" (save)="handleUpdate($event)"></app-login>
+
+<app-output-container [output]="outputModel"></app-output-container>
+
+
+<app-output-container [output]="outputBackend"></app-output-container>
