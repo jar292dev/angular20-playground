@@ -6,23 +6,33 @@ const cookieParser = require('cookie-parser');
 
 const SECRET_JWT_KEY = 'mysecretkey12345'; // Clave secreta para firmar los JWT (en un entorno real, usar una variable de entorno)
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: 'http://localhost:4200', // Cambia esto al origen de tu frontend
+    credentials: true // Permite enviar cookies en las solicitudes CORS
+  }
+));
 app.use(cookieParser());
 app.use(express.json());
 
 // Middleware para manejar la sesión y verificar el token JWT
 app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
+    console.log(`🛠️ Middleware: ${req.method} ${req.url}`);
+    console.log('📥 Cookies recibidas:', req.cookies);
     const token = req.cookies.access_token; // Obtiene el token de la cookie
-    
+
     req.session = { user: null }; // Inicializa la sesión con user en null
+
+    if (!token) {
+        console.log('⚠️ Middleware: No se encontró token en las cookies');
+    }
 
     try {
         const data = jwt.verify(token, SECRET_JWT_KEY); // Verifica el token con la clave secreta
         req.session.user = data.user; // Si el token es válido, asigna el usuario a la sesión
-        console.log(`data from token: ${JSON.stringify(data)}`);
+        console.log(`✅ Middleware: Token válido, usuario: ${JSON.stringify(data.user)}`);
     } catch (error) {
-        //console.error(error.message, error.stack);
+        console.log(`❌ Middleware: Error al verificar el token: ${error.message}`);
     }
     next(); // Llama a next() para pasar al siguiente middleware o ruta
 })
@@ -273,15 +283,18 @@ app.post('/api/login', (req, res) => {
       });
     }
 
+    // Excluir password antes de meter en el token
+    const { password: _, ...userWithoutPassword } = user;
+
     // Login exitoso, generar token JWT con la información del usuario
-    const token = jwt.sign({ user }, SECRET_JWT_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ user: userWithoutPassword }, SECRET_JWT_KEY, { expiresIn: '1h' });
 
     console.log('✅ 200 - Login exitoso');
     res
       .cookie('access_token', token, { 
         httpOnly: true, 
         secure: false, 
-        sameSite: 'Strict',
+        sameSite: 'lax',
         maxAge: 1000 * 60 * 60, // 1 hora
       }) // En producción, secure debería ser true
       .status(200)
@@ -333,18 +346,24 @@ app.get('/api/users/:id', (req, res) => {
   res.status(200).json(user);
 });
 
-app.get('/api/profile', (req, res) => {
+app.get('/api/me', (req, res) => {
+  console.log('📥 Solicitud recibida en /api/me');
   if (!req.session.user) {
-    console.log('🔒 401 - Perfil: no autenticado');
+    console.log('🔒 401 - /me: no autenticado');
     return res.status(401).json({
       error: 'Unauthorized',
       message: 'Debes iniciar sesión para acceder a esta información'
     });
   }
 
-  console.log('✅ 200 - Perfil: autenticado');
-  res.status(200).json(req.session.user);
+  console.log('✅ 200 - /me: autenticado');
+
+  // Excluir password antes de meter en el token
+  const { password: _, ...userWithoutPassword } = req.session.user;
+  
+  res.status(200).json(userWithoutPassword);
 });
+
 
 // CRUD completo de usuarios (solo para admins)
 app.post('/api/users', (req, res) => {
