@@ -67,7 +67,8 @@
               "buildTarget": "angular20-playground:build:production"
             },
             "development": {
-              "buildTarget": "angular20-playground:build:development"
+              "buildTarget": "angular20-playground:build:development",
+              "proxyConfig": "proxy-local.conf.json"
             }
           },
           "defaultConfiguration": "development"
