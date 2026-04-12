@@ -15,4 +15,14 @@ export class Index {
     { label: 'Formly'},
   ];
 
+  menuItems = [
+    { label: 'Formly Básico', path: '/formly/basico' },
+    { label: 'Custom Types', path: '/formly/custom-types' },
+    { label: 'Floating labels', path: '/formly/floating-labels'},
+    { label: 'Field rows', path: '/formly/field-rows'},
+    { label: 'Field validations', path: '/formly/field-validations'},
+    { label: 'Field factory', path: '/formly/field-factory'}
+
+  ];
+
 }

@@ -1,0 +1,18 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+<h5>Ejemplo de formulario con tipos personalizados</h5>
+<p>Este es un ejemplo de formulario que utiliza tipos personalizados para mejorar la experiencia del usuario.</p>
+<p>Muestra el manejo de campos de búsqueda y selección de ciudades.</p>
+<p>EL campo desplegable es un tipo personalizado que usa ng-typeahead para proporcionar una experiencia de búsqueda mejorada.</p>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+  <formly-form [form]="form" [fields]="fields" [model]="model">
+  </formly-form>
+
+  <div class="buttons">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-secondary" (click)="reset()">Reset</button>
+  </div>
+</form>
+
+<app-output-container [output]="output"></app-output-container>

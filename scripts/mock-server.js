@@ -504,6 +504,49 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/api/cities', (req, res) => {
+  const term = req.query.term || '';
+  const onlyCapitals = req.query.onlyCapitals === 'true';
+  const limit = parseInt(req.query.limit, 10) || 10;
+  console.log(`🔍 Buscando ciudades con término: "${term}", limit: ${limit}`);
+  // Ciudades de España y booleano de si es capital de comunidad autónoma para el ejemplo
+  const cities = [
+    { id: 1, name: 'Madrid', capital: true },
+    { id: 2, name: 'Barcelona', capital: false },
+    { id: 3, name: 'Valencia', capital: false },
+    { id: 4, name: 'Sevilla', capital: true },
+    { id: 5, name: 'Zaragoza', capital: true },
+    { id: 6, name: 'Málaga', capital: false },
+    { id: 7, name: 'Murcia', capital: false },
+    { id: 8, name: 'Palma de Mallorca', capital: true },
+    { id: 9, name: 'Las Palmas de Gran Canaria', capital: true },
+    { id: 10, name: 'Bilbao', capital: true },
+    { id: 11, name: 'Santander', capital: true },
+    { id: 12, name: 'Valladolid', capital: false },
+    { id: 13, name: 'Vitoria-Gasteiz', capital: false },
+    { id: 14, name: 'Oviedo', capital: true },
+    { id: 15, name: 'Gijón', capital: false },
+    { id: 16, name: 'A Coruña', capital: true },
+    { id: 17, name: 'Granada', capital: false },
+    { id: 18, name: 'Tenerife', capital: false },
+    { id: 19, name: 'Córdoba', capital: false },
+    { id: 20, name: 'Almería', capital: false },
+    { id: 21, name: 'Cádiz', capital: false },
+    { id: 22, name: 'Huelva', capital: false },
+    { id: 23, name: 'Logroño', capital: false },
+    { id: 24, name: 'Badajoz', capital: false },
+    { id: 25, name: 'Salamanca', capital: false },
+  ];
+  //const filtered = cities.filter(city => city.name.toLowerCase().includes(term.toLowerCase()));
+  //const filtered = cities.filter(city => city.name.toLowerCase().includes(term.toLowerCase())).slice(0, limit);
+  let filtered = cities.filter(city => city.name.toLowerCase().includes(term.toLowerCase()));
+  if (onlyCapitals) {
+    filtered = filtered.filter(city => city.capital);
+  }
+  filtered = filtered.slice(0, limit);
+  res.json(filtered);
+});
+
 // =============================================================================
 // Servidor
 // =============================================================================

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap, tap } from 'rxjs';
 import { User } from '../models/user.model';
 
 /**
@@ -47,7 +47,7 @@ export class AuthService {
    * Obtiene el usuario actualmente autenticado.
    * @returns Observable que emite el usuario actual.
    */
-  getCurrentUser() {
+  getCurrentUser(): Observable<User | null> {
     return this.currentUser$.asObservable();
   }
 
@@ -59,9 +59,9 @@ export class AuthService {
     const user = this.currentUser$.value;
     if (!user) return false;
 
-    if (!user.token) return false;
+    //if (!user.token) return false;
 
-    if (this.isSessionExpired(user.token)) return false;
+    //if (this.isSessionExpired(user.token)) return false;
 
     return true;
   }
@@ -74,6 +74,14 @@ export class AuthService {
   hasRole(roles: string[]): boolean {
     const user = this.currentUser$.value;
     return roles.some(role => user?.roles?.includes(role)) ?? false;
+  }
+
+  checkAuthStatus(): Observable<boolean> {
+    console.log('Verificando estado de autenticación...');
+    this.loadUserInfo().subscribe({
+      error: () => this.currentUser$.next(null) // Si hay un error (por ejemplo, token inválido), limpiamos el estado del usuario
+    });
+    return of(this.isAuthenticated());
   }
 
   private loadUserInfo() {

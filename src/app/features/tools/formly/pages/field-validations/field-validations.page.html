@@ -1,0 +1,15 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+<h5>Ejemplo de formulario con varias filas de campos</h5>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+  <formly-form [form]="form" [fields]="fields" [model]="model">
+  </formly-form>
+
+  <div class="d-flex my-2 gap-2">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-secondary" (click)="onReset()">Reset</button>
+  </div>
+</form>
+
+<app-output-container [output]="output"></app-output-container>

@@ -9,7 +9,10 @@
 <section>
   <h2>Available Components</h2>
   <ul>
-    <li><a routerLink="basico">Formulario básico</a></li>
-    <!-- Add more links to other components as needed -->
+    @for(menuItem of menuItems; track menuItem.path) {
+      <li>
+        <a [routerLink]="menuItem.path">{{ menuItem.label }}</a>
+      </li>
+    }
   </ul>
 </section>

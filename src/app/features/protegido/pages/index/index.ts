@@ -24,7 +24,7 @@ export class Index {
   ];
 
   isSubmitting = signal(false);
-  currentUser = signal({ email: 'test@test.com', password: 'Angular Developer' });
+  currentUser = signal({ email: 'admin@example.com', password: 'admin' });
 
   handleUpdate(formData: any) {
     this.outputModel = formData;
